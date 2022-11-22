@@ -1,0 +1,157 @@
+
+oppgave6.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000000  00800100  00800100  0000011c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         000000c8  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .comment      00000030  00000000  00000000  0000011c  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000014c  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000020  00000000  00000000  00000188  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000076f  00000000  00000000  000001a8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000693  00000000  00000000  00000917  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   000002ad  00000000  00000000  00000faa  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000024  00000000  00000000  00001258  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003b7  00000000  00000000  0000127c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000000b0  00000000  00000000  00001633  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000010  00000000  00000000  000016e3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   8:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+   c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  10:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  14:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  18:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  1c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  20:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  24:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  2c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  30:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  34:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  38:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  3c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  40:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  44:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  48:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  4c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  50:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  54:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  58:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  5c:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  60:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+  64:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d4 e0       	ldi	r29, 0x04	; 4
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
+  78:	0c 94 62 00 	jmp	0xc4	; 0xc4 <_exit>
+
+0000007c <__bad_interrupt>:
+  7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000080 <main>:
+
+int main(void)
+{
+	//DDRC = (1 << PC5);
+	
+	DDRD  = 0b01100000; //
+  80:	80 e6       	ldi	r24, 0x60	; 96
+  82:	8a b9       	out	0x0a, r24	; 10
+	
+	TCCR0A = _BV(COM0A1) |  _BV(WGM00);
+  84:	81 e8       	ldi	r24, 0x81	; 129
+  86:	84 bd       	out	0x24, r24	; 36
+	TCCR0B = _BV(CS00);
+  88:	81 e0       	ldi	r24, 0x01	; 1
+  8a:	85 bd       	out	0x25, r24	; 37
+
+
+	
+	while(1){  //Infinite loop
+		
+		for(int i = 1; i<255; ++i)
+  8c:	81 e0       	ldi	r24, 0x01	; 1
+  8e:	90 e0       	ldi	r25, 0x00	; 0
+  90:	8f 3f       	cpi	r24, 0xFF	; 255
+  92:	91 05       	cpc	r25, r1
+  94:	4c f4       	brge	.+18     	; 0xa8 <main+0x28>
+		{
+				OCR0A = i;
+  96:	87 bd       	out	0x27, r24	; 39
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  98:	e3 ec       	ldi	r30, 0xC3	; 195
+  9a:	f9 e0       	ldi	r31, 0x09	; 9
+  9c:	31 97       	sbiw	r30, 0x01	; 1
+  9e:	f1 f7       	brne	.-4      	; 0x9c <main+0x1c>
+  a0:	00 c0       	rjmp	.+0      	; 0xa2 <main+0x22>
+  a2:	00 00       	nop
+
+
+	
+	while(1){  //Infinite loop
+		
+		for(int i = 1; i<255; ++i)
+  a4:	01 96       	adiw	r24, 0x01	; 1
+  a6:	f4 cf       	rjmp	.-24     	; 0x90 <main+0x10>
+  a8:	8f ef       	ldi	r24, 0xFF	; 255
+  aa:	90 e0       	ldi	r25, 0x00	; 0
+				OCR0A = i;
+				_delay_ms(10);
+		}
+		
+		
+		for(int i = 255; i>1; --i)
+  ac:	82 30       	cpi	r24, 0x02	; 2
+  ae:	91 05       	cpc	r25, r1
+  b0:	6c f3       	brlt	.-38     	; 0x8c <main+0xc>
+		{
+			OCR0A = i;
+  b2:	87 bd       	out	0x27, r24	; 39
+  b4:	e3 ec       	ldi	r30, 0xC3	; 195
+  b6:	f9 e0       	ldi	r31, 0x09	; 9
+  b8:	31 97       	sbiw	r30, 0x01	; 1
+  ba:	f1 f7       	brne	.-4      	; 0xb8 <main+0x38>
+  bc:	00 c0       	rjmp	.+0      	; 0xbe <main+0x3e>
+  be:	00 00       	nop
+				OCR0A = i;
+				_delay_ms(10);
+		}
+		
+		
+		for(int i = 255; i>1; --i)
+  c0:	01 97       	sbiw	r24, 0x01	; 1
+  c2:	f4 cf       	rjmp	.-24     	; 0xac <main+0x2c>
+
+000000c4 <_exit>:
+  c4:	f8 94       	cli
+
+000000c6 <__stop_program>:
+  c6:	ff cf       	rjmp	.-2      	; 0xc6 <__stop_program>
